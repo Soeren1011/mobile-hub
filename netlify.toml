@@ -1,0 +1,51 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+# Proxy to individual apps
+[[redirects]]
+  from = "/postflop-quiz/*"
+  to = "https://postflop-quiz-app.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/plo4-quiz/*"
+  to = "https://plo4quiz.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/plo5-quiz/*"
+  to = "https://plo5quiz.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/plo6-quiz/*"
+  to = "https://plo6-quiz.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/plo4-ranges/*"
+  to = "https://plo4rangebrowser.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/plo5-ranges/*"
+  to = "https://plo5rangebrowser.netlify.app/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/db-trainer/*"
+  to = "https://dbtrainer.netlify.app/:splat"
+  status = 200
+  force = true

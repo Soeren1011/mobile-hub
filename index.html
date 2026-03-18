@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="description" content="BlueWhale Poker - Mobile Training Apps">
+  <title>BlueWhale Poker - Mobile</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🐋</text></svg>">
+  <style>
+    :root {
+      --bg: #0a0a1a;
+      --bg-card: #141428;
+      --bg-hover: #1e1e3a;
+      --border: #2a2a44;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --accent: #667eea;
+      --accent2: #764ba2;
+      --green: #22c55e;
+      --orange: #f97316;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .header {
+      padding: 24px 20px 16px;
+      text-align: center;
+      background: linear-gradient(135deg, #0f0f2e 0%, #1a1a3e 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 20px 0 10px;
+    }
+    .app-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .app-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .app-card:hover, .app-card:active {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+      transform: translateY(-1px);
+    }
+    .app-card.coming-soon {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .app-icon.quiz { background: linear-gradient(135deg, var(--orange), #dc2626); }
+    .app-icon.browse { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .app-icon.trainer { background: linear-gradient(135deg, var(--green), #059669); }
+    .app-icon.upload { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .app-info { flex: 1; }
+    .app-name { font-weight: 700; font-size: 0.95rem; }
+    .app-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+    .app-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge-live { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+    .badge-soon { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
+    .app-arrow { color: var(--text-muted); font-size: 1.2rem; }
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    @media (hover: none) and (pointer: coarse) {
+      .app-card:active { transform: scale(0.98); }
+      button { touch-action: manipulation; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">BlueWhale Poker</div>
+    <div class="subtitle">Mobile Training Apps</div>
+  </header>
+
+  <main class="main">
+    <div class="section-title">Postflop</div>
+    <div class="app-grid">
+      <a class="app-card" href="/postflop-quiz/">
+        <div class="app-icon quiz">🎯</div>
+        <div class="app-info">
+          <div class="app-name">PLO4 Postflop Quiz</div>
+          <div class="app-desc">Cbet, vs Cbet, Check-Raise, Donk</div>
+        </div>
+        <span class="app-badge badge-live">Live</span>
+        <span class="app-arrow">›</span>
+      </a>
+    </div>
+
+    <div class="section-title">Preflop Quizzes</div>
+    <div class="app-grid">
+      <a class="app-card" href="/plo4-quiz/">
+        <div class="app-icon quiz">🃏</div>
+        <div class="app-info">
+          <div class="app-name">PLO4 Preflop Quiz</div>
+          <div class="app-desc">4-Card preflop training</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+      <a class="app-card coming-soon" href="/plo5-quiz/">
+        <div class="app-icon quiz">🃏</div>
+        <div class="app-info">
+          <div class="app-name">PLO5 Preflop Quiz</div>
+          <div class="app-desc">5-Card preflop training</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+      <a class="app-card coming-soon" href="/plo6-quiz/">
+        <div class="app-icon quiz">🃏</div>
+        <div class="app-info">
+          <div class="app-name">PLO6 Preflop Quiz</div>
+          <div class="app-desc">6-Card preflop training</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+    </div>
+
+    <div class="section-title">Range Browsers</div>
+    <div class="app-grid">
+      <a class="app-card coming-soon" href="/plo4-ranges/">
+        <div class="app-icon browse">📊</div>
+        <div class="app-info">
+          <div class="app-name">PLO4 Range Browser</div>
+          <div class="app-desc">Browse solver ranges</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+      <a class="app-card coming-soon" href="/plo5-ranges/">
+        <div class="app-icon browse">📊</div>
+        <div class="app-info">
+          <div class="app-name">PLO5 Range Browser</div>
+          <div class="app-desc">Browse solver ranges</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+    </div>
+
+    <div class="section-title">Double Board</div>
+    <div class="app-grid">
+      <a class="app-card coming-soon" href="/db-trainer/">
+        <div class="app-icon trainer">🎲</div>
+        <div class="app-info">
+          <div class="app-name">DB Equity Trainer</div>
+          <div class="app-desc">Bomb Pot equity training</div>
+        </div>
+        <span class="app-badge badge-soon">Soon</span>
+        <span class="app-arrow">›</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="https://bluewhalepoker.com">bluewhalepoker.com</a>
+  </footer>
+</body>
+</html>
