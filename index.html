@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a0a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="BlueWhale Poker - Mobile Training Apps">
   <title>BlueWhale Poker - Mobile</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🐋</text></svg>">
+  <link rel="manifest" href="/manifest.json">
   <style>
     :root {
       --bg: #0a0a1a;
@@ -81,10 +84,6 @@
       background: var(--bg-hover);
       transform: translateY(-1px);
     }
-    .app-card.coming-soon {
-      opacity: 0.5;
-      pointer-events: none;
-    }
     .app-icon {
       width: 48px;
       height: 48px;
@@ -98,7 +97,7 @@
     .app-icon.quiz { background: linear-gradient(135deg, var(--orange), #dc2626); }
     .app-icon.browse { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
     .app-icon.trainer { background: linear-gradient(135deg, var(--green), #059669); }
-    .app-icon.upload { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .app-icon.install { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
     .app-info { flex: 1; }
     .app-name { font-weight: 700; font-size: 0.95rem; }
     .app-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
@@ -110,7 +109,6 @@
       text-transform: uppercase;
     }
     .badge-live { background: rgba(34, 197, 94, 0.2); color: var(--green); }
-    .badge-soon { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
     .app-arrow { color: var(--text-muted); font-size: 1.2rem; }
     .footer {
       text-align: center;
@@ -119,8 +117,128 @@
       color: var(--text-muted);
     }
     .footer a { color: var(--accent); text-decoration: none; }
+
+    /* Install Banner */
+    .install-banner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 6px;
+    }
+    .install-banner:hover, .install-banner:active {
+      background: linear-gradient(135deg, rgba(102,126,234,0.25), rgba(118,75,162,0.25));
+      transform: translateY(-1px);
+    }
+    .install-banner .app-name { color: var(--accent); }
+
+    /* Install Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 360px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .modal-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--bg);
+      border: none;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .modal-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding-top: 4px;
+    }
+    .step-text strong { color: var(--text); }
+    .step-note {
+      margin-top: 14px;
+      padding: 10px;
+      background: rgba(102,126,234,0.1);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
     @media (hover: none) and (pointer: coarse) {
-      .app-card:active { transform: scale(0.98); }
+      .app-card:active, .install-banner:active { transform: scale(0.98); }
       button { touch-action: manipulation; }
     }
   </style>
@@ -132,6 +250,18 @@
   </header>
 
   <main class="main">
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner" style="margin-top: 8px;">
+      <div class="app-icon install">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>
+      <div class="app-info">
+        <div class="app-name">Add to Home Screen</div>
+        <div class="app-desc">Install as App on your phone</div>
+      </div>
+      <span class="app-arrow">›</span>
+    </div>
+
     <div class="section-title">Postflop</div>
     <div class="app-grid">
       <a class="app-card" href="/postflop-quiz/">
@@ -215,5 +345,101 @@
   <footer class="footer">
     <a href="https://bluewhalepoker.com">bluewhalepoker.com</a>
   </footer>
+
+  <!-- Install Modal -->
+  <div class="modal-overlay" id="installModal" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-title">Add to Home Screen</div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="ios">iPhone / iPad</button>
+        <button class="modal-tab" data-tab="android">Android</button>
+      </div>
+      <div class="tab-content active" id="tab-ios">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Open this page in <strong>Safari</strong></div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Tap the <strong>Share button</strong> <span style="font-size:1.2rem">⬆️</span> at the bottom</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Scroll down and tap <strong>"Add to Home Screen"</strong></div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">Tap <strong>"Add"</strong> in the top right</div>
+          </div>
+        </div>
+        <div class="step-note">Only works in Safari, not Chrome or other browsers</div>
+      </div>
+      <div class="tab-content" id="tab-android">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Tap the <strong>menu</strong> (three dots) in the top right</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong></div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Tap <strong>"Install"</strong> to confirm</div>
+          </div>
+        </div>
+        <div class="step-note">Works in Chrome, Edge, and Samsung Browser</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Hide install banner if already in standalone mode
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      document.getElementById('installBanner').style.display = 'none';
+    }
+
+    // Android: try native install prompt first
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    // Install banner click
+    document.getElementById('installBanner').addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+      } else {
+        // Show modal with tabs
+        const modal = document.getElementById('installModal');
+        modal.style.display = 'flex';
+        // Auto-select correct tab
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        switchTab(isIOS ? 'ios' : 'android');
+      }
+    });
+
+    // Modal close
+    document.getElementById('modalClose').addEventListener('click', () => {
+      document.getElementById('installModal').style.display = 'none';
+    });
+    document.getElementById('installModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) e.currentTarget.style.display = 'none';
+    });
+
+    // Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+    }
+    document.querySelectorAll('.modal-tab').forEach(t => {
+      t.addEventListener('click', () => switchTab(t.dataset.tab));
+    });
+  </script>
 </body>
 </html>
